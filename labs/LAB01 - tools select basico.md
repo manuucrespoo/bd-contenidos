@@ -806,7 +806,7 @@ Solución:
 --MI SOLUCION
 select 
 	(genero || ' ' || pais) as que_donde
-from penguins
+from cancion
 ```
 
 | que_donde           |
