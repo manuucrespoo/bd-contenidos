@@ -334,6 +334,9 @@ git clone https://github.com/TU-USUARIO/bd-contenidos.git
 cd bd-contenidos
 git remote add upstream https://github.com/bd-uex/bd-contenidos.git
 
+# --- ANTES DE SUBIR LAS COSAS A GITHUB ---
+cd "C:\Users\M4NVb\OneDrive - Universidad de Extremadura\CARPETAS\UNI\ASIGNATURAS\SEGUNDO\1º CUATRI\BD\OBSIDIAN\bd-contenidos"
+
 # --- Cada sesión de trabajo ---
 git pull                                  # empezar con lo último de tu fork
 #   ... estudiar, anotar, resolver ...
