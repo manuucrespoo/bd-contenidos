@@ -27,7 +27,11 @@ Escribe una consulta que utilice un filtro para calcular simultáneamente el nú
 
 Solución:
 ```sql
-
+-- MI SOLUCION --
+select
+	round(avg(reproducciones) filter (where reproducciones > 100000000.0), 2) as media_exitos,
+	round(avg(reproducciones) filter (where reproducciones < 1000000.0), 2) as media_minoritarias
+from cancion;
 ```
 
 Resultado:
@@ -189,7 +193,27 @@ $FAMILIAR$(empleado, nombre, sexo, fechaNac, relación\*)
 
 Solución:
 ```sql
+-- MI SOLUCION --
+create table familiar(
+  empleado text not null,
+  nombre text not null,
+  sexo text not null,
+  fechaNac text not null,
+  relacion text not null
+)strict;
 
+insert into familiar(empleado, nombre, sexo, fechaNac, relacion) values
+('333445555','Alicia','F','1986-04-06', 'Hija'),
+('333445555','Teodoro','M','1983-10-25', 'Hijo'),
+('333445555','Luisa','F','1958-05-03', 'Esposa'),
+('987654321','Alfonso','M','1942-02-28', 'Esposo'),
+('123456789','Miguel','M','1988-01-04', 'Hijo'),
+('123456789','Alice','F','1988-12-30', 'Hija'),
+('123456789','Elisa','F','1967-05-05', 'Esposa');
+
+select * 
+from familiar
+where sexo = 'M';
 ```
 
 Tabla resultado:
@@ -247,7 +271,14 @@ Reescribe la definición de la tabla de `FAMILIAR` para agregar las siguientes r
 
 Solución
 ```sql
-
+-- MI SOLUCION --
+create table familiar(
+  empleado text not null,
+  nombre text not null,
+  sexo text not null check (sexo in ('F','M','O')),
+  fechaNac text not null,
+  relacion text not null check (relacion in('Hijo','Hija','Conyuge','Hermano','Hermana'))
+)strict;
 ```
 
 Para verificar tu respuesta, selecciona su definición de la tabla sqlite_schema mediante la siguiente consulta:
