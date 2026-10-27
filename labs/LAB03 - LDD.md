@@ -464,7 +464,21 @@ En caso de ser una sola columna, crea una restricción a nivel de columna.
 
 Solución:
 ```sql
+--MI SOLUCION --
+drop table if exists empleado;
 
+create table empleado(
+  nombre text not null,
+  apellido1 text not null,
+  apellido2 text,
+  dni text primary key not null,
+  fechaNac text not null,
+  direccion text,
+  sexo text not null,
+  sueldo real not null,
+  supervisor text,
+  dpto int not null
+)strict;
 ```
 
 Para verificar tu respuesta, selecciona su definición de la tabla sqlite_schema mediante la siguiente consulta:
