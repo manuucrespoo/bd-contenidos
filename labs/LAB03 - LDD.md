@@ -524,7 +524,7 @@ En este momento el contenido de la tabla `DEPARTAMENTO` es:
 | Administración | 2      | 987654321 | 1995-01-01           |
 | Investigación  | 3      | 333445555 | 1988-05-22           |
 
-Por lo tanto, **prácticamente todos las filas de `EMPLEADO` tienen un valor inválido en la columna `dpto`**, porque no existen los departamentos con `numero` 4 o 5.
+Por lo tanto, **prácticamente todas las filas de `EMPLEADO` tienen un valor inválido en la columna `dpto`**, porque no existen los departamentos con `numero` 4 o 5.
 
 En nuestra definición de tablas actual, se pueden insertar empleados con valores en la columna `dpto` inexistentes en la tabla `DEPARTAMENTO`. Por lo tanto, nuestra base de datos estaría en un estado no válido; ya que se ha perdido la consistencia de los datos. Para evitar estas situaciones se deben definir **restricciones de clave externa** `FOREIGN KEY`.
 
@@ -742,6 +742,21 @@ El borrado de la fila con clave primaria 4 en la tabla de `DEPARTAMENTO` ocasion
 
 Reescribe la definición de la tabla de `FAMILIAR` para agregar su clave primaria y clave externa, según el siguiente esquema de relación (mantén todos los cambios realizados hasta ahora en esa tabla):
 
+---
+
+#Mi_nota 
+`ON UPDATE CASCADE` -> **Si cambias algo una vez, se cambia en todos lados**. Por ejemplo, si hay 3 familiares asociados a un empleado con `dni` **123456789** y se cambia al `dni` **999999999**, se cambia en todos a la vez.
+
+- **Miguel** (Hijo) -> empleado: `123456789`  -> empleado: `999999999`
+    
+- **Alice** (Hija) -> empleado: `123456789` -> empleado: `999999999`
+    
+- **Elisa** (Esposa) -> empleado: `123456789` -> empleado: `999999999`
+
+`ON DELETE CASCADE` ->**Si se borra el principal, se borra todo lo que depende de él**. Por ejemplo, si se borra el empleado anterior, automáticamente se borran los 3 familiares asociados a él.
+
+---
+
  $FAMILIAR$(<u>empleado, nombre</u>, sexo, fechaNac, relación)
 	- Clave primaria (PK): `{empleado, nombre}`
 	- Claves externas (FK): 
@@ -749,7 +764,18 @@ Reescribe la definición de la tabla de `FAMILIAR` para agregar su clave primari
 
 Solución
 ```sql
+-- MI SOLUCION --
+drop table if exists familiar;
 
+create table familiar(
+	empleado text not null,
+  	nombre text not null,
+  	sexo text not null check (sexo in ('M','F','O')),
+  	fechaNac text not null,
+  	relacion text check (relacion in ('hijo','hija','conyuge','hermano','hermana')),
+  	primary key(empleado, nombre),
+  	foreign key(empleado) references empleado(dni) on update cascade on delete cascade
+)strict
 ```
 
 Para verificar tu respuesta, selecciona su definición de la tabla sqlite_schema mediante la siguiente consulta:
@@ -867,7 +893,7 @@ Luego, usa update para modificar los registros existentes
 - Puedes modificar cualquier cantidad de registros a la vez
 - Ten cuidado con la cláusula where
 
----
+----
 
 ## Renombrar una tabla
 
@@ -903,7 +929,8 @@ Elimina la columna `valoracion` de la tabla `UBICACION`  (anteriormente, `LOCALI
 
 Solución:
 ```sql
-
+-- MI SOLUCION --
+alter table ubicacion drop valoracion;
 ```
 
 Para verificar tu respuesta, selecciona su definición de la tabla sqlite_schema mediante la siguiente consulta:
