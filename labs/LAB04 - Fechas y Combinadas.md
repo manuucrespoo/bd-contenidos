@@ -23,7 +23,13 @@ Escribe una consulta que devuelva el sueldo medio por departamento para departam
 
 Solución:
 ```sql
-
+-- MI SOLUCION --
+select
+	dpto,
+	avg(sueldo) as sueldo_medio
+from empleado
+group by dpto
+having count(*) > 1;
 ```
 
 Resultado:
@@ -152,11 +158,12 @@ Escribe una consulta para obtener el nombre del departamento, su director, su fe
 
 Solución:
 ```sql
-select 
-  nombre, 
-  director, 
-  min(fechaIngresoDirector) as mas_antiguo,
-  time(fechaIngresoDirector,'localtime') as hora
+-- MI SOLUCION --
+select
+	nombre,
+	director,
+	min(fechaIngresoDirector) as mas_antiguo,
+	time(fechaIngresoDirector,'localtime') as hora
 from departamento;
 ```
 
@@ -182,10 +189,10 @@ where date(fechaIngresoDirector,'localtime') between date('now','-1 year','-6 mo
 
 Tabla resultado:
 
-| nombre        | director  | local_date | local_time |
-| ------------- | --------- | ---------- | ---------- |
-| Investigación | 333445555 | 2025-10-03 | 19:42:24   |
-| Ventas        | 453453453 | 2024-08-15 | 14:00:00   | 
+| nombre        | director  | local_date | local_time |     |
+| ------------- | --------- | ---------- | ---------- | --- |
+| Investigación | 333445555 | 2025-10-03 | 19:42:24   |     |
+| Ventas        | 453453453 | 2024-08-15 | 14:00:00   |     |
 
 Es posible comparar fechas con los operadores de comparación y otros operadores.
 
@@ -242,7 +249,13 @@ Escribe una consulta para obtener el nombre, apellido1 y fechaNac de los emplead
 
 Solución:
 ```sql
-
+-- MI SOLUCION --
+select
+	nombre,
+	apellido1,
+	fechaNac
+from empleado
+where date(fechaNac) between date('1955-01-01') and date('1965-12-31');
 ```
 
 Tabla resultado:
@@ -376,7 +389,7 @@ Tabla resultado:
 
 - La primera consulta devuelve el `nombre` y la edad de los empleados
 
-| nombre   | edad | 
+| nombre   | edad |
 | -------- | ---- |
 | José     | 60   |
 | Alberto  | 70   |
@@ -478,7 +491,7 @@ SELECT director as dni FROM DEPARTAMENTO;
 
 Tabla resultado:
 
-| dni       | 
+| dni       |
 | --------- |
 | 123456789 |
 | 666884444 |
@@ -496,7 +509,7 @@ Tabla resultado:
 | 123456789 |
 | 333445555 |
 | 453453453 |
-| 666884444 | 
+| 666884444 |
 | 888665555 |
 | 987654321 |
 | 987987987 |
@@ -507,7 +520,7 @@ Tabla resultado:
 | dni       |
 | --------- |
 | 333445555 |
-| 453453453 | 
+| 453453453 |
 | 888665555 |
 | 987654321 |
 
