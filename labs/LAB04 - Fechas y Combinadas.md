@@ -532,12 +532,21 @@ Escribe una consulta que devuelva los empleados con más de un familiar que no s
 
 Solución:
 ```sql
+-- MI SOLUCION -- 
+select empleado 
+from familiar
+group by empleado
+having count(*) > 1
 
+except
+
+select supervisor
+from empleado;
 ```
 
 Tabla resultado:
 
-| empleado  | 
+| empleado  |
 | --------- |
 | 123456789 |
 
@@ -590,7 +599,7 @@ En SQLite, cuando tres o más `SELECT` simples se conectan en una consulta combi
 | 666884444 |
 | 888665555 |
 | 987654321 |
-| 987987987 | 
+| 987987987 |
 | 999887777 |
 
 - La segunda consulta devuelve los `dni` de los empleados que tienen familiar
@@ -662,8 +671,16 @@ Escribe una consulta que devuelva el dni de los empleados que no tienen familiar
 
 Solución:
 ```sql
+-- MI SOLUCION --
+select dni from empleado 
+except
+select empleado from familiar 
 
+union
 
+select supervisor from empleado
+group by supervisor
+having count(*) > 2;
 ```
 
 Tabla resultado:
@@ -783,7 +800,20 @@ Escribe una consulta que devuelva los proyectos del departamento con mayor núme
 
 Solución:
 ```sql
-
+-- MI SOLUCION --
+with dpto_mas_personal as(
+	select
+		dpto
+  	from empleado
+  	group by dpto
+  	order by count(*) desc
+  	limit 1
+)
+select 
+	nombre,
+	ubicacion,
+	p.dpto
+from proyecto p natural join dpto_mas_personal;
 ```
 
 Tabla resultado:
