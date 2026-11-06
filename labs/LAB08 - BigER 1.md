@@ -109,6 +109,19 @@ Modifica el contenido de la entidad Nombre_Entidad anterior para que pase a ser 
 
 Escribe en la notación BigER cómo modelar la entidad **Estudiante**.
 
+```erdiagram
+erdiagram EJ1
+notation=crowsfoot
+
+entity Estudiante{
+    numero_expediente key
+    dni unique
+    nombre
+    apellido_1
+    apellido_2
+}
+```
+
 ---
 ## Introducción a la notación textual de BigER (2) Relaciones y cardinalidades
 
@@ -144,6 +157,8 @@ relationship nombre_relacion {
 Vuelve al archivo EjemplosNotacionBigER.erd y añade lo siguiente:
 
 ```erdiagram
+
+// MI SOLUCION 
 entity Titulacion {
     codigo key
     nombre
@@ -262,6 +277,28 @@ Escribe el texto BigER necesario para modelar los desarrolladores y los equipos,
 
 ![](../imgs/BD%20-%20BigER%20Estudio%20Videojuegos%20parte%201.png)
 
+
+```erdiagram
+//MI SOLUCION
+
+erdiagram EJ2
+notation=crowsfoot
+
+entity Desarrollador{
+    dni key
+    cuenta_bancaria unique
+    sueldo
+    especialidad
+    nombre
+    apellido_1
+    apellido_2
+}
+entity Equipo{
+    codigo key
+    nombre unique
+    sedes
+}
+```
 ---
 
 ### Ejercicio 03 - Enunciado ER 00A Estudio Videojuegos (2)
@@ -282,6 +319,41 @@ De nuevo, vamos a fijarnos solo en las entidades. Este párrafo nos da dos más:
 Escribe el texto BigER necesario para modelar los videojuegos y los niveles, de manera que nuestro diagrama ER tenga estas dos nuevas entidades tal y como se muestran en la siguiente imagen:
 ![](../imgs/BD%20-%20BigER%20Estudio%20Videojuegos%20parte%202.png)
 
+```erdiagram
+
+//MI SOLUCION
+erdiagram EJ3
+notation=crowsfoot
+
+entity Desarrollador{
+    dni key
+    cuenta_bancaria unique
+    sueldo
+    especialidad
+    nombre
+    apellido_1
+    apellido_2
+} 
+
+entity Equipo{
+    codigo key
+    nombre unique
+    sedes
+}
+
+entity Nivel {
+    numero key
+    nombre
+    dificultad
+    duracion_estimada
+}
+
+entity Videojuego{
+    codigo key
+    titulo unique
+    argumento
+}
+```
 ---
 ### Ejercicio 04 - Enunciado ER 00A Estudio Videojuegos (3)
 
@@ -294,6 +366,51 @@ Fíjate en que entre las mismas dos entidades hay **dos relaciones distintas**: 
 
 Escribe el texto BigER necesario para modelarlas y visualiza el resultado en el diagrama en VS Code. Antes de continuar, asegúrate de entender cómo se está representando gráficamente cada relación, y comprueba con la regla de lectura que cada cardinalidad dice lo mismo que el enunciado.
 
+```erdiagram
+//MI SOLUCION
+
+erdiagram EJ4
+notation=crowsfoot
+
+entity Desarrollador{
+    dni key
+    cuenta_bancaria unique
+    sueldo
+    especialidad
+    nombre
+    apellido_1
+    apellido_2
+}
+  
+entity Equipo{
+    codigo key
+    nombre unique
+    sedes
+}
+
+entity Nivel {
+    numero key
+    nombre
+    dificultad
+    duracion_estimada
+}
+
+entity Videojuego{
+    codigo key
+    titulo unique
+    argumento
+}
+
+relationship pertenece_a{
+    Desarrollador[0..N] -> Equipo[1..1]
+}
+
+relationship lidera{
+    Desarrollador[0..1] -> Equipo[0..1]
+    fecha_inicio_lider
+}
+```
+
 ---
 ### Ejercicio 05 - Enunciado ER 00A Estudio Videojuegos (4)
 
@@ -304,6 +421,58 @@ Vamos ahora con las relaciones del tercer párrafo:
 
 Escribe el texto BigER necesario para modelarlas y visualiza el resultado en el diagrama en VS Code. Antes de continuar, asegúrate de entender cómo se está representando gráficamente cada relación.
 
+```erdiagram
+//MI SOLUCION
+
+erdiagram EJ5
+notation=crowsfoot
+
+entity Desarrollador{
+    dni key
+    cuenta_bancaria unique
+    sueldo
+    especialidad
+    nombre
+    apellido_1
+    apellido_2
+} 
+
+entity Equipo{
+    codigo key
+    nombre unique
+    sedes
+} 
+
+entity Nivel {
+    numero key
+    nombre
+    dificultad
+    duracion_estimada
+}
+
+entity Videojuego{
+    codigo key
+    titulo unique
+    argumento
+}
+
+relationship pertenece_a{
+    Desarrollador[0..N] -> Equipo[1..1]
+} 
+
+relationship lidera{
+    Desarrollador[0..1] -> Equipo[0..1]
+    fecha_inicio_lider
+}
+
+relationship desarrolla{
+    Videojuego[0..N]->Equipo[1..1]
+} 
+
+relationship forma_parte_de{
+    Nivel[0..N] -> Videojuego[1..1]
+}
+```
 ---
 
 ### Ejercicio 06 - Enunciado ER 00A Estudio Videojuegos (5)
@@ -313,6 +482,67 @@ Para terminar, nos falta el último párrafo:
 ---
 Por último, los desarrolladores trabajan en los videojuegos, y el estudio necesita saber cuántas horas semanales dedica cada desarrollador a cada juego en el que trabaja. Un desarrollador puede trabajar en varios juegos a la vez, o en ninguno si acaba de llegar, y un juego en preproducción puede no tener todavía a nadie asignado. Como en Dehesa Pixel Studios creen que nadie aprende solo, los desarrolladores veteranos **mentorizan** a los recién llegados: cada desarrollador tiene como mucho un mentor, y un mentor puede mentorizar a varios desarrolladores.
 
+```erdiagram
+//MI SOLUCION
+
+erdiagram EstudioVideojuegosCompleto
+notation=crowsfoot
+
+entity Desarrollador{
+    dni key
+    cuenta_bancaria unique
+    sueldo
+    especialidad
+    nombre
+    apellido_1
+    apellido_2
+}
+
+entity Equipo{
+    codigo key
+    nombre unique
+    sedes
+}
+
+entity Nivel {
+    numero key
+    nombre
+    dificultad
+    duracion_estimada
+}
+
+entity Videojuego{
+    codigo key
+    titulo unique
+    argumento
+}
+
+relationship pertenece_a{
+    Desarrollador[0..N] -> Equipo[1..1]
+}
+
+relationship lidera{
+    Desarrollador[0..1] -> Equipo[0..1]
+    fecha_inicio_lider
+}
+
+relationship desarrolla{
+    Videojuego[0..N]->Equipo[1..1]
+}
+
+relationship forma_parte_de{
+    Nivel[0..N] -> Videojuego[1..1]
+}
+
+relationship trabaja_en{
+    Desarrollador[0..N] -> Videojuego[0..N]
+    horas
+}
+
+relationship mentoriza{
+    Desarrollador[0..1 | "Mentor"] -> Desarrollador[0..N | "Mentorizado"]
+}
+```
 ---
 
 Este párrafo nos da dos relaciones más:
